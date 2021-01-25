@@ -8,11 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
    ui->setupUi(this);
 
    scene = new QGraphicsScene(this);
-   ui->graphicsView->setScene(scene);
 
 
-   this->board = new Board();
-   this->board = this->scene->addItem(this->board);
+   ui->graphicsView->setScene(scene);   
 }
 
 MainWindow::~MainWindow()
