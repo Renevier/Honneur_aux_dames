@@ -21,11 +21,22 @@ private:
     QGraphicsScene *scene;
 
     Case* board[10][10];
-    Pawn* pawn;
+    Pawn* pawns[40]; //20 white, 20 black
+
+    void InitBoard();
+    void InitPawns();
+    void InitBackground();
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void Update();
+
+    void DrawScene();
+    void DrawBackground();
+    void DrawPawns();
+    void Draw();
 
 
 };

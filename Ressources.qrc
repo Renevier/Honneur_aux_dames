@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>Ressources/Board.png</file>
+        <file>Ressources/Red_pawn.png</file>
+        <file>Ressources/Yellow_pawn.png</file>
     </qresource>
 </RCC>

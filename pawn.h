@@ -5,17 +5,18 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include <QGraphicsPixmapItem>
 
-class Pawn : public QObject
+class Pawn : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
 public:
-    QGraphicsEllipseItem shape;
-
+    int id;
 
 public:
-    explicit Pawn(QObject *parent = nullptr, float _posX = 0.f, float _posY = 0.f);
+    explicit Pawn(float _posX = 0.f, float _posY = 0.f, int _id = 0);
+    ~Pawn();
 
 signals:
 

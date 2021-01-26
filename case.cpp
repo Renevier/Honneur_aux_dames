@@ -2,7 +2,6 @@
 
 Case::Case(QObject *parent, int _posX, int _posY, bool _isBlocked) : QObject(parent)
 {
-    //QBrush transparentBrush(Qt::transparent);
     QPen outlinePen(Qt::blue);
     outlinePen.setWidth(2);
 
@@ -11,5 +10,10 @@ Case::Case(QObject *parent, int _posX, int _posY, bool _isBlocked) : QObject(par
     this->shape.setPen(outlinePen);
 
     this->isBlocked = _isBlocked;
+
+}
+
+Case::~Case()
+{
 
 }

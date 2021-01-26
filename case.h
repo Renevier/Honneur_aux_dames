@@ -17,6 +17,7 @@ public:
 
 public:
     explicit Case(QObject *parent = nullptr, int _posX = 0, int _posY = 0, bool _isBlocked = true);
+    ~Case();
 
 signals:
 
