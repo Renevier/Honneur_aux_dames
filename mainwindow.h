@@ -6,7 +6,8 @@
 #include <QGraphicsView>
 #include <QGraphicsItem>
 
-#include<board.h>
+#include <case.h>
+#include <pawn.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,7 +20,8 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
 
-    Board* board;
+    Case* board[10][10];
+    Pawn* pawn;
 
 public:
     MainWindow(QWidget *parent = nullptr);

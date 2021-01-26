@@ -10,11 +10,13 @@ class Case : public QObject
 {
     Q_OBJECT
 
-private:
+public:
     QGraphicsRectItem shape;
+    bool isBlocked;
+
 
 public:
-    explicit Case(QObject *parent = nullptr);
+    explicit Case(QObject *parent = nullptr, int _posX = 0, int _posY = 0, bool _isBlocked = true);
 
 signals:
 
