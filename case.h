@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include "pawn.h"
 
 class Case : public QObject
 {
@@ -13,12 +14,14 @@ class Case : public QObject
 public:
     QGraphicsRectItem shape;
     bool isBlocked;
+    Pawn* pawn;
 
 
 public:
-    explicit Case(QObject *parent = nullptr, int _posX = 0, int _posY = 0, bool _isBlocked = true);
+    explicit Case(QObject *parent = nullptr, int _posX = 0, int _posY = 0, bool _isBlocked = true, Pawn* _pawn = nullptr);
     ~Case();
 
+    inline void SetColor(QColor _color){ this->shape.setBrush(_color);}
 signals:
 
 };

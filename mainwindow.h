@@ -23,6 +23,8 @@ private:
     Case* board[10][10];
     Pawn* pawns[40]; //20 white, 20 black
 
+    int turn;
+
     void InitBoard();
     void InitPawns();
     void InitBackground();
@@ -31,10 +33,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void PlayablePawn();
     void Update();
 
-    void DrawScene();
     void DrawBackground();
+    void DrawBoard();
     void DrawPawns();
     void Draw();
 

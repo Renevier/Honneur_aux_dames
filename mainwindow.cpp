@@ -37,11 +37,13 @@ void MainWindow::InitPawns()
             if(this->board[i][j]->isBlocked == false && i <= 3)
             {
                 this->pawns[k] = new Pawn(this->scene, ":/Ressources/Red_pawn.png",j * 95, i * 95);
+                this->board[i][j]->pawn = this->pawns[k];
                 k++;
             }
             else if(this->board[i][j]->isBlocked == false && i >= 6)
             {
-                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Yellow_pawn.png",j * 95, i * 95);
+                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Yellow_pawn.png",j * 95, i * 95, 2);
+                this->board[i][j]->pawn = this->pawns[k];
                 k++;
             }
         }
@@ -62,6 +64,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->InitBoard();
     this->InitBackground();
     this->InitPawns();
+
+    this->turn = 1;
 }
 
 MainWindow::~MainWindow()
@@ -84,18 +88,33 @@ MainWindow::~MainWindow()
     delete this->ui;
 }
 
+void MainWindow::PlayablePawn()
+{
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++ )
+        {
+            if(this->board[i][j]->pawn->id == this->turn)
+            {
+                this->board[i][j]->SetColor(Qt::yellow);
+            }
+        }
+    }
+}
+
 void MainWindow::Update()
 {
+    this->PlayablePawn();
 
 }
 
-void MainWindow::DrawScene()
+void MainWindow::DrawBackground()
 {
     QGraphicsPixmapItem* pixItem = new QGraphicsPixmapItem(QPixmap(":/Ressources/Board.png"));
     this->scene->addItem(pixItem);
 }
 
-void MainWindow::DrawBackground()
+void MainWindow::DrawBoard()
 {
     for (int i = 0; i < 10; i++)
     {
@@ -114,10 +133,9 @@ void MainWindow::DrawPawns()
 
 void MainWindow::Draw()
 {
-    this->DrawScene();
     this->DrawBackground();
+    this->DrawBoard();
     this->DrawPawns();
 
     ui->graphicsView->setScene(scene);
 }
-
