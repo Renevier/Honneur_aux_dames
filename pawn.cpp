@@ -1,24 +1,21 @@
 #include "pawn.h"
 
-Pawn::Pawn(float _posX, float _posY, int _id)
+Pawn::Pawn(QGraphicsScene* _scene, QString _pixItem,float _posX, float _posY)
 {
-    QGraphicsPixmapItem* pixItem;
+    this->scene = _scene;
+    this->pixItem = new QGraphicsPixmapItem(QPixmap(_pixItem));
 
-    if(this->id == 0)
-        pixItem = new QGraphicsPixmapItem(QPixmap(":/Ressources/Red_pawn.png"));
-    else if(this->id == 1)
-        pixItem = new QGraphicsPixmapItem(QPixmap(":/Ressources/Yellow_pawn.png"));
+    this->pixItem->setPos(_posX + this->pixItem->boundingRect().width() / 2, _posY + this->pixItem->boundingRect().height() / 2);
 
-    //Redefine the origine of our pixmap
-    QPainter p;
-    p.translate(this->pixmap().width() / 2,
-                this->pixmap().height() / 2);
 
-    this->setPos(_posX - this->pixmap().width() / 2,
-                 _posY - this->pixmap().height() / 2);
 }
 
 Pawn::~Pawn()
 {
+    delete this->pixItem;
+}
 
+void Pawn::Draw()
+{
+    this->scene->addItem(this->pixItem);
 }

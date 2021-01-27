@@ -7,16 +7,18 @@
 #include <QGraphicsItem>
 #include <QGraphicsPixmapItem>
 
-class Pawn : public QObject, public QGraphicsPixmapItem
+class Pawn : public QObject
 {
     Q_OBJECT
+private:
+    QGraphicsScene *scene;
+    QGraphicsPixmapItem* pixItem;
 
 public:
-    int id;
-
-public:
-    explicit Pawn(float _posX = 0.f, float _posY = 0.f, int _id = 0);
+    explicit Pawn(QGraphicsScene* _scene, QString _pixItem, float _posX = 0.f, float _posY = 0.f);
     ~Pawn();
+
+    void Draw();
 
 signals:
 

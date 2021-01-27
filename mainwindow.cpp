@@ -8,10 +8,20 @@ void MainWindow::InitBoard()
     {
         for (int j = 0; j < 10; j++ )
         {
-            if(j % 2 == 0)
-                this->board[i][j] = new Case(nullptr, j * 95, i * 95, false);
+            if(i%2 == 0)
+            {
+                if(j % 2 != 0)
+                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, false);
+                else
+                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, true);
+            }
             else
-                this->board[i][j] = new Case(nullptr, j * 95, i * 95, true);
+            {
+                if(j % 2 == 0)
+                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, false);
+                else
+                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, true);
+            }
         }
     }
 }
@@ -24,14 +34,14 @@ void MainWindow::InitPawns()
     {
         for (int j = 0; j < 10; j++ )
         {
-            if(this->board[i][j]->isBlocked == false && i <= 4)
+            if(this->board[i][j]->isBlocked == false && i <= 3)
             {
-                this->pawns[k] = new Pawn(j * 95, i * 95, 0);
+                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Red_pawn.png",j * 95, i * 95);
                 k++;
             }
-            else if(this->board[i][j]->isBlocked == false && i >= 7)
+            else if(this->board[i][j]->isBlocked == false && i >= 6)
             {
-                this->pawns[k] = new Pawn(j * 95, i * 95, 1);
+                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Yellow_pawn.png",j * 95, i * 95);
                 k++;
             }
         }
@@ -64,7 +74,7 @@ MainWindow::~MainWindow()
            }
        }
 
-    for(int i = 0; i <= 40; i++)
+    for(int i = 0; i < 40; i++)
     {
         delete pawns[i];
     }
@@ -98,8 +108,8 @@ void MainWindow::DrawBackground()
 
 void MainWindow::DrawPawns()
 {
-    for(int i = 0; i <= 40; i++)
-        this->scene->addItem(this->pawns[i]);
+    for(int i = 0; i < 40; i++)
+        this->pawns[i]->Draw();
 }
 
 void MainWindow::Draw()
