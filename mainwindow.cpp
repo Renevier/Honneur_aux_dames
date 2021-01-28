@@ -85,13 +85,84 @@ MainWindow::~MainWindow()
 
     delete this->scene;
 
-    delete this->ui;
-}
+    delete this->ui;}
 
-bool MainWindow::CanMove()
+bool MainWindow::CanMove(int _i, int _j)
 {
-    //Check arround annd i+1 arround
-    return true;
+    //if corner top/left
+    if(_i == 0 && _j == 0){
+        if(this->board[_i + 1][_j + 1]->pawn == nullptr) //bot-right
+            return true;}
+    //if top
+    else if (_j == 0 && (_i >= 1 && _i <= 8)){
+        if(this->board[_i - 1][_j + 1]->pawn == nullptr|| // bot-left
+                this->board[_i + 1][_j + 1]->pawn == nullptr) // bot-right
+            return true;}
+    //if corner top/right
+    else if(_i == 0 && _j == 9){
+        if(this->board[_i + 1][_j - 1]->pawn == nullptr || this->board[_i + 2][_j - 2]->pawn == nullptr)// bot-left
+            return true;}
+    //right
+    else if(_i == 9 && (_j >= 1 && _j <= 8)){
+        if(this->board[_i - 1][_j + 1]->pawn == nullptr|| // bot-left
+                this->board[_i - 1][_j - 1]->pawn == nullptr) // top-left
+            return true;}
+    //if corner bot/left
+    else if(_i == 9 && _j == 0){
+        if(this->board[_i - 1][_j + 1]->pawn == nullptr)// top-right
+            return true;}
+    //bot
+    else if(_j == 9 && (_i >= 1 && _i <= 8)){
+        if(this->board[_i - 1][_j - 1]->pawn == nullptr|| // bot-left
+                this->board[_i + 1][_j - 1]->pawn == nullptr) // bot-right
+            return true;}
+    //if corner bot/right
+    else if(_i == 9 && _j == 9){
+        if(this->board[_i - 1][_j - 1]->pawn == nullptr)//top-left
+            return true;}
+    //left
+    else if(_i == 0 && (_j >= 1 && _j <= 8)){
+        if(this->board[_i + 1][_j - 1]->pawn == nullptr|| // bot-left
+                this->board[_i + 1][_j + 1]->pawn == nullptr) // bot-right
+            return true;}
+
+    //if corner top + 1/left + 1
+    else if(_i == 1 && _j == 1){
+        if(this->board[_i - 1][_j - 1]->pawn == nullptr || //top-left
+                this->board[_i - 1][_j + 1]->pawn == nullptr ||// top-right
+                this->board[_i + 1][_j - 1]->pawn == nullptr ||// bot-left
+                this->board[_i + 1][_j + 1]->pawn == nullptr) //bot-right
+            return true;}
+    //if corner top + 1/right - 1
+    else if(_i == 1 && _j == 8){
+        if(this->board[_i - 1][_j - 1]->pawn == nullptr || //top-left
+                this->board[_i - 1][_j + 1]->pawn == nullptr ||// top-right
+                this->board[_i + 1][_j - 1]->pawn == nullptr ||// bot-left
+                this->board[_i + 1][_j + 1]->pawn == nullptr) //bot-right
+            return true;}
+    //if corner bot - 1/left + 1
+    else if(_i == 8 && _j == 1){
+        if(this->board[_i - 1][_j - 1]->pawn == nullptr ||//top-left
+                this->board[_i - 1][_j + 1]->pawn == nullptr ||// top-right
+                this->board[_i + 1][_j - 1]->pawn == nullptr ||// bot-left
+                this->board[_i + 1][_j + 1]->pawn == nullptr) //bot-right
+            return true;}
+    //if corner bot - 1/right - 1
+    else if(_i == 8 && _j == 8){
+        if(this->board[_i - 1][_j - 1]->pawn == nullptr ||//top-left
+                this->board[_i - 1][_j + 1]->pawn == nullptr ||// top-right
+                this->board[_i + 1][_j - 1]->pawn == nullptr ||// bot-left
+                this->board[_i + 1][_j + 1]->pawn == nullptr) //bot-right
+            return true;}
+    else
+    {
+        if(this->board[_i - 1][_j - 1]->pawn == nullptr || //top-left
+                this->board[_i - 1][_j + 1]->pawn == nullptr || // top-right
+                this->board[_i + 1][_j - 1]->pawn == nullptr || // bot-left
+                this->board[_i + 1][_j + 1]->pawn == nullptr) //bot-right
+            return true;
+    }
+    return false;
 }
 
 void MainWindow::PlayablePawn()
@@ -102,7 +173,7 @@ void MainWindow::PlayablePawn()
         {
             if(this->board[i][j]->pawn != nullptr)
             {
-                if(this->board[i][j]->pawn->id == this->turn)
+                if(this->board[i][j]->pawn->id == this->turn && CanMove(i, j))
                 {
                     this->board[i][j]->SetColor(Qt::yellow);
                 }

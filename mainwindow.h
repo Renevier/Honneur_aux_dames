@@ -16,7 +16,7 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-private:
+public:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
 
@@ -33,7 +33,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    bool CanMove();
+    bool CanMove(int _i, int _j);
     void PlayablePawn();
     void Update();
 
