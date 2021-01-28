@@ -28,7 +28,7 @@ void MainWindow::InitBoard()
 
 void MainWindow::InitPawns()
 {
-    int k = 0;
+     int k = 0;
 
     for (int i = 0; i < 10; i++)
     {
@@ -36,13 +36,13 @@ void MainWindow::InitPawns()
         {
             if(this->board[i][j]->isBlocked == false && i <= 3)
             {
-                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Red_pawn.png",j * 95, i * 95);
+                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Red_pawn.png",j * 95, i * 95, 1, QPoint(i, j));
                 this->board[i][j]->pawn = this->pawns[k];
                 k++;
             }
             else if(this->board[i][j]->isBlocked == false && i >= 6)
             {
-                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Yellow_pawn.png",j * 95, i * 95, 2);
+                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Yellow_pawn.png",j * 95, i * 95, 2, QPoint(i, j));
                 this->board[i][j]->pawn = this->pawns[k];
                 k++;
             }
@@ -88,15 +88,24 @@ MainWindow::~MainWindow()
     delete this->ui;
 }
 
+bool MainWindow::CanMove()
+{
+    //Check arround annd i+1 arround
+    return true;
+}
+
 void MainWindow::PlayablePawn()
 {
     for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 10; j++ )
         {
-            if(this->board[i][j]->pawn->id == this->turn)
+            if(this->board[i][j]->pawn != nullptr)
             {
-                this->board[i][j]->SetColor(Qt::yellow);
+                if(this->board[i][j]->pawn->id == this->turn)
+                {
+                    this->board[i][j]->SetColor(Qt::yellow);
+                }
             }
         }
     }

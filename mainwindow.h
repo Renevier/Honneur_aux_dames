@@ -33,6 +33,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    bool CanMove();
     void PlayablePawn();
     void Update();
 
