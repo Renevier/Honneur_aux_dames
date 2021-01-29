@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QGraphicsPixmapItem>
 
 void MainWindow::InitBoard()
 {
@@ -11,16 +10,16 @@ void MainWindow::InitBoard()
             if(i%2 == 0)
             {
                 if(j % 2 != 0)
-                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, false);
+                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, false, nullptr, QPoint(i, j));
                 else
-                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, true);
+                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, true, nullptr, QPoint(i, j));
             }
             else
             {
                 if(j % 2 == 0)
-                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, false);
+                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, false, nullptr, QPoint(i, j));
                 else
-                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, true);
+                    this->board[i][j] = new Case(nullptr, j * 95, i * 95, true, nullptr, QPoint(i, j));
             }
         }
     }
@@ -86,6 +85,31 @@ MainWindow::~MainWindow()
     delete this->scene;
 
     delete this->ui;}
+
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton)
+    {
+        for(int i = 0; i < 40; i++)
+        {
+            if(event->position() == this->pawns[i]->worldCoord)
+            {
+                this->selected = this->pawns[i];
+            }
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++ )
+            {
+                this->board[i][j]->SetColor(Qt::transparent);
+
+
+            }
+        }
+    }
+
+}
 
 bool MainWindow::CanMove(int _i, int _j)
 {
@@ -176,6 +200,7 @@ void MainWindow::PlayablePawn()
                 if(this->board[i][j]->pawn->id == this->turn && CanMove(i, j))
                 {
                     this->board[i][j]->SetColor(Qt::yellow);
+                    this->board[i][j]->pawn->isPlayable = true;
                 }
             }
         }
@@ -219,3 +244,4 @@ void MainWindow::Draw()
 
     ui->graphicsView->setScene(scene);
 }
+

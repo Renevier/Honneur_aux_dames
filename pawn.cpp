@@ -9,6 +9,8 @@ Pawn::Pawn(QGraphicsScene* _scene, QString _pixItem,float _posX, float _posY, in
 
     this->id = _id;
     this->coord = _coord;
+    this->isPlayable = false;
+    this->worldCoord = QPoint(_posX, _posY);
 }
 
 Pawn::~Pawn()

@@ -5,6 +5,10 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsItem>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsSceneMouseEvent>
+#include <QKeyEvent>
+#include <QWidget>
 
 #include <case.h>
 #include <pawn.h>
@@ -22,9 +26,12 @@ public:
 
     Case* board[10][10];
     Pawn* pawns[40]; //20 white, 20 black
+    Pawn* selected;
 
     int turn;
 
+protected:
+    void mousePressEvent(QMouseEvent *event);
     void InitBoard();
     void InitPawns();
     void InitBackground();
@@ -33,6 +40,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void SelectPawn();
     bool CanMove(int _i, int _j);
     void PlayablePawn();
     void Update();
@@ -41,7 +49,5 @@ public:
     void DrawBoard();
     void DrawPawns();
     void Draw();
-
-
 };
 #endif // MAINWINDOW_H

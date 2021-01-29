@@ -1,6 +1,6 @@
 #include "case.h"
 
-Case::Case(QObject *parent, int _posX, int _posY, bool _isBlocked, Pawn* _pawn) : QObject(parent)
+Case::Case(QObject *parent, int _posX, int _posY, bool _isBlocked, Pawn* _pawn, QPoint _gridCoord) : QObject(parent)
 {
     //QPen outlinePen(Qt::blue);
     //outlinePen.setWidth(2);
