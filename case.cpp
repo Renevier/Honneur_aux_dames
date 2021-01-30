@@ -11,6 +11,7 @@ Case::Case(QObject *parent, int _posX, int _posY, bool _isBlocked, Pawn* _pawn, 
 
     this->isBlocked = _isBlocked;
     this->pawn = _pawn;
+    this->isUsable = false;
 
 }
 

@@ -9,6 +9,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <QWidget>
+#include <QVector>
 
 #include <case.h>
 #include <pawn.h>
@@ -25,10 +26,11 @@ public:
     QGraphicsScene *scene;
 
     Case* board[10][10];
-    Pawn* pawns[40]; //20 white, 20 black
+    QVector<Pawn*> pawns; //20 white, 20 black
     Pawn* selected;
 
     int turn;
+    bool isPawnSelected;
 
 protected:
     void mousePressEvent(QMouseEvent *event);

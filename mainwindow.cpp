@@ -35,13 +35,13 @@ void MainWindow::InitPawns()
         {
             if(this->board[i][j]->isBlocked == false && i <= 3)
             {
-                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Red_pawn.png",j * 95, i * 95, 1, QPoint(i, j));
-                this->board[i][j]->pawn = this->pawns[k];
+                this->pawns.push_back(new Pawn(this->scene, ":/Ressources/Red_pawn.png",j * 95, i * 95, 1, QPoint(i, j)));
+                this->board[i][j]->pawn = this->pawns.at(k);
                 k++;
             }
             else if(this->board[i][j]->isBlocked == false && i >= 6)
             {
-                this->pawns[k] = new Pawn(this->scene, ":/Ressources/Yellow_pawn.png",j * 95, i * 95, 2, QPoint(i, j));
+                this->pawns.push_back(new Pawn(this->scene, ":/Ressources/Yellow_pawn.png",j * 95, i * 95, 2, QPoint(i, j)));
                 this->board[i][j]->pawn = this->pawns[k];
                 k++;
             }
@@ -65,50 +65,118 @@ MainWindow::MainWindow(QWidget *parent)
     this->InitPawns();
 
     this->turn = 1;
+    this->isPawnSelected = false;
 }
 
 MainWindow::~MainWindow()
 {
     for (int i = 0; i < 10; i++)
-       {
-           for (int j = 0; j < 10; j++ )
-           {
-               delete this->board[i][j];
-           }
-       }
-
-    for(int i = 0; i < 40; i++)
     {
-        delete pawns[i];
+        for (int j = 0; j < 10; j++ )
+        {
+            delete this->board[i][j];
+        }
     }
 
     delete this->scene;
 
-    delete this->ui;}
+    delete this->ui;
+}
 
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    if(event->button() == Qt::LeftButton)
+    for (int i = 0; i < 10; i++)
     {
-        for(int i = 0; i < 40; i++)
+        for (int j = 0; j < 10; j++ )
         {
-            if(event->position() == this->pawns[i]->worldCoord)
+            if(event->button() == Qt::LeftButton)
             {
-                this->selected = this->pawns[i];
-            }
-        }
+                //Selectionne une piece et indique au joueur les differentes possibilitées que la piece séléctionnée peut faire
+                if((event->pos().x() >= this->board[i][j]->shape.pos().x() &&
+                    event->pos().x() <= this->board[i][j]->shape.pos().x() + 95 &&
+                    event->pos().y() >= this->board[i][j]->shape.pos().y() &&
+                    event->pos().y() <= this->board[i][j]->shape.pos().y() + 95) &&
+                        this->board[i][j]->isUsable &&
+                        this->isPawnSelected == false)
+                {
 
-        for (int i = 0; i < 10; i++)
-        {
-            for (int j = 0; j < 10; j++ )
-            {
-                this->board[i][j]->SetColor(Qt::transparent);
+                    this->selected = this->board[i][j]->pawn; //On copie la piece
+                    this->isPawnSelected = true;
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        for (int j = 0; j < 10; j++ )
+                        {
+                            if(this->board[i][j]->isUsable)
+                                this->board[i][j]->isUsable = false;
 
 
+                            if(this->board[i][j]->isUsable == false)
+                                this->board[i][j]->SetColor(Qt::transparent);
+                        }
+                    }
+
+                    if(this->board[i - 1][j - 1]->pawn == nullptr && (i > 0 && j > 0))
+                    {
+                        this->board[i-1][j-1]->SetColor(Qt::yellow);
+                        this->board[i-1][j-1]->isUsable = true;
+                    }
+
+
+                    if(this->board[i - 1][j + 1]->pawn == nullptr && (i > 0 && j < 9))
+                    {
+                        this->board[i-1][j+1]->SetColor(Qt::yellow);
+                        this->board[i-1][j+1]->isUsable = true;
+                    }
+
+                    if(this->board[i + 1][j - 1]->pawn == nullptr && (i < 9 && j > 0))
+                    {
+                        this->board[i+1][j-1]->SetColor(Qt::yellow);
+                        this->board[i+1][j-1]->isUsable = true;
+                    }
+
+                    if(this->board[i + 1][j + 1]->pawn == nullptr && (i < 9 && j < 9))
+                    {
+                        this->board[i+1][j+1]->SetColor(Qt::yellow);
+                        this->board[i+1][j+1]->isUsable = true;
+                    }
+                }
+
+                if(this->isPawnSelected && this->selected != nullptr)
+                {
+
+                    if((event->pos().x() >= this->board[i][j]->shape.pos().x() &&
+                        event->pos().x() <= this->board[i][j]->shape.pos().x() + 95 &&
+                        event->pos().y() >= this->board[i][j]->shape.pos().y() &&
+                        event->pos().y() <= this->board[i][j]->shape.pos().y() + 95) &&
+                            this->board[i][j]->isUsable)
+                    {
+
+                        //On bouge la piece
+                        this->board[i][j]->pawn = this->selected;
+
+                        int xToDelete = this->selected->coord.x();
+                        int yToDelete = this->selected->coord.y();
+
+
+                        this->selected->coord = QPoint(i, j);
+
+                        //On delete l'ancienne
+                        for (int x = 0; x < 10; x++)
+                        {
+                            for (int y = 0; y < 10; y++ )
+                            {
+                                if(x == xToDelete && y == yToDelete)
+                                    delete this->board[x][y]->pawn;
+                            }
+                        }
+
+                        this->pawns.push_back(this->selected);
+                    }
+                }
             }
         }
     }
-
 }
 
 bool MainWindow::CanMove(int _i, int _j)
@@ -200,7 +268,7 @@ void MainWindow::PlayablePawn()
                 if(this->board[i][j]->pawn->id == this->turn && CanMove(i, j))
                 {
                     this->board[i][j]->SetColor(Qt::yellow);
-                    this->board[i][j]->pawn->isPlayable = true;
+                    this->board[i][j]->isUsable = true;
                 }
             }
         }
@@ -209,8 +277,7 @@ void MainWindow::PlayablePawn()
 
 void MainWindow::Update()
 {
-    this->PlayablePawn();
-
+        this->PlayablePawn();
 }
 
 void MainWindow::DrawBackground()
@@ -232,7 +299,7 @@ void MainWindow::DrawBoard()
 
 void MainWindow::DrawPawns()
 {
-    for(int i = 0; i < 40; i++)
+    for(int i = 0; i < pawns.size(); i++)
         this->pawns[i]->Draw();
 }
 

@@ -16,6 +16,7 @@ public:
     bool isBlocked;
     Pawn* pawn;
     QPoint gridCoord;
+    bool isUsable;
 
 
 public:
